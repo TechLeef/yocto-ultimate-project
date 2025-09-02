@@ -1,0 +1,9 @@
+header:
+  version: 14
+
+repos:
+  meta-raspberrypi:
+    url: https://github.com/agherzan/meta-raspberrypi.git
+    path: layers/meta-raspberrypi
+    branch: scarthgap
+    commit: aaf976a665daa7e520545908adef8a0e9410b57f

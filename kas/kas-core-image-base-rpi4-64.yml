@@ -1,0 +1,7 @@
+header:
+  version: 14
+  includes:
+    - kas/include/common.yml
+
+machine: raspberrypi4-64
+target: core-image-base
