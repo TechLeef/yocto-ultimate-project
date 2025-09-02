@@ -1,0 +1,5 @@
+*-venv/
+build/
+layers/
+.kas_shell_history
+
