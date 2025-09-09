@@ -6,4 +6,4 @@ header:
     - kas/include/rpi.yml
     - kas/include/techleef.yml
 
-distro: nodistro
+distro: techleef
