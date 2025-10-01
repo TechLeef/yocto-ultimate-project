@@ -1,12 +1,13 @@
 #!/bin/bash
 
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 checkout|shell|build <path/to/yml>"
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 checkout|shell|build <path/to/yml> <path/to/YoctoShare>"
     exit 1
 fi
 
 PROJECT_DIR="$(realpath $(dirname "$0")/..)"
 VENV_DIR="${PROJECT_DIR}/yocto-venv"
+YOCTO_SHARE="${3}"
 
 do_prepare_env(){
     if [ -d "${VENV_DIR}" ]; then
@@ -39,14 +40,10 @@ do_prepare_env(){
     fi
 }
 
-do_kas_checkout(){
+do_kas(){
     local yml="${1}"
-    kas-container checkout "${yml}"
-}
-
-do_kas_shell(){
-    local yml="${1}"
-    kas-container shell "${yml}"
+    local action="${2}"
+    kas-container --runtime-args "-v ${YOCTO_SHARE}:/yoctoshare" "${action}" "${yml}"
 }
 
 main(){
@@ -60,16 +57,22 @@ main(){
         exit 1
     fi
 
-    if [ "${action}" == "checkout" ]; then
-        do_kas_checkout "${yml}"
-    elif [ "${action}" == "shell" ]; then
-        do_kas_shell "${yml}"
-    elif [ "${action}" == "build" ]; then
-        do_kas_build "${yml}"
-    else
-        echo "[x] Wrong action"
+    if [ "${action}" != "shell" -a "${action}" != "build" -a "${action}" != "checkout" ]; then
+        echo "[ERROR] Wrong KAS action, possible: shell, build or checkout"
         exit 1
     fi
+
+    do_kas "${yml}" "${action}"
 }
+
+if [ ! -d "${YOCTO_SHARE}" ]; then
+    echo "[ERROR] The provided path (${YOCTO_SHARE}) is not a directory"
+    exit 1
+else
+    if [ ! -d "${YOCTO_SHARE}/downloads" -o ! -d "${YOCTO_SHARE}/sstate-cache" ]; then
+        echo "[ERROR] Make sure you have downloads and sstate-cache under ${YOCTO_SHARE}"
+        exit 1
+    fi
+fi
 
 main "$@"
