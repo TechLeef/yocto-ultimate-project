@@ -11,7 +11,7 @@ YOCTO_SHARE="${3}"
 
 do_prepare_env(){
     if [ -d "${VENV_DIR}" ]; then
-        if [ ! "${VENV_DIR}/pyvenv.cfg" ]; then
+        if [ ! -f "${VENV_DIR}/pyvenv.cfg" ]; then
             echo "[x] Python venv directory exist but no pyvenv.cfg"
             echo "[x] Make sure to remove the directory and repeat again"
             exit 1
