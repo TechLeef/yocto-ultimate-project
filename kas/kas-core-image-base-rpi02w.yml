@@ -3,5 +3,5 @@ header:
   includes:
     - kas/include/common.yml
 
-machine: raspberrypi0-2w-64
+machine: techleef-rpi02w64
 target: core-image-base

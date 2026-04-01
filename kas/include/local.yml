@@ -15,5 +15,8 @@ local_conf_header:
         HALT,${SSTATE_DIR},100M,1K \
         HALT,/tmp,10M,1K"
 
+  custom: |
+    INHERIT += "buildhistory"
+
     DL_DIR = "/yoctoshare/downloads"
     SSTATE_DIR = "/yoctoshare/sstate-cache"
